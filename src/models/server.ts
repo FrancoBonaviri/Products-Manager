@@ -1,5 +1,6 @@
 import express from 'express';
 import { Application } from 'express';
+import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 require('dotenv').config()
 
@@ -21,6 +22,8 @@ class Server {
         this.config();
 
         this.setting()
+
+        this.db_cnn();
     }
 
     private config() {
@@ -47,6 +50,16 @@ class Server {
         this.app.listen( this.port, () => {
             console.log("Server running on port: " + this.port);
         });
+    }
+
+    db_cnn() {
+        //Conectar a la Db
+        mongoose.connect( process.env.MONGO_CONNECTION_STRING || '', 
+        {useNewUrlParser: true, useCreateIndex: true,},( err ) => {
+            if( err ) throw err;
+            console.log('Conected to MongoDb')
+        } );
+
     }
 
 
