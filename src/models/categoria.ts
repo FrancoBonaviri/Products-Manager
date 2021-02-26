@@ -13,7 +13,7 @@ const categoriaSchema = new Schema({
     },
     codigo: {
         type: String,
-        required: [true, 'Debe indicar una categoria']
+        required: [true, 'Debe indicar un codigo']
     },
     estado: {
         type: Boolean,
@@ -25,6 +25,11 @@ const categoriaSchema = new Schema({
         default: 'default-categoria.jpg'
     }
 
+});
+
+categoriaSchema.method('toJSON', function() {
+    const { __v, ...data } = this._doc;
+    return data;
 });
 
 

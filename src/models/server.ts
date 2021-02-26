@@ -2,6 +2,7 @@ import express from 'express';
 import { Application } from 'express';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
+import routes from '../routes';
 require('dotenv').config()
 
 
@@ -37,6 +38,8 @@ class Server {
                 next();
             })
         }
+
+        this.app.use('/', routes);
     }
 
     // set the port ->

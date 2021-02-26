@@ -1,5 +1,9 @@
 import { Request, Response } from 'express';
 import { Categoria } from '../models/categoria';
+import { v4 as uuid } from 'uuid';
+import { errorMonitor } from 'nodemailer/lib/mailer';
+
+
 class categoriaController {
 
 
@@ -7,26 +11,33 @@ class categoriaController {
         
     }
 
+    static geyByCodigo = () => {
+        
+    }
 
     static getById = () => {
 
     }
 
-    static create =  ( req: Request, res: Response ) => {
+    static create =  async( req: Request, res: Response ) => {
         
-        const { nombre, descripcion, banner, estado } = req.body;
+        const { nombre, descripcion, estado } = req.body;
+
+        // Genero el codigo unico ->
+        const codigo = uuid();
 
         const categoria = {
             nombre,
             descripcion, 
-            banner,
-            estado
+            estado,
+            codigo
         }
+
 
         try {
 
 
-            const catDb = Categoria.create( categoria )
+            const catDb = await Categoria.create( categoria )
 
             res.json({
                 ok: true,
@@ -38,7 +49,7 @@ class categoriaController {
         } catch (error) {
             res.json({
                 ok: false,
-                err: error
+                err: error.message
             })
         }
 
@@ -47,6 +58,11 @@ class categoriaController {
 
     static update = () => {
 
+    }
+
+
+    static setBanner = () => {
+        
     }
 
 
