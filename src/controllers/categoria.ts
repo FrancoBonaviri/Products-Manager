@@ -1,24 +1,61 @@
 import { Request, Response } from 'express';
 import { Categoria } from '../models/categoria';
 import { v4 as uuid } from 'uuid';
-import { errorMonitor } from 'nodemailer/lib/mailer';
+import FileService from '../services/FileService';
+import { UploadedFile } from 'express-fileupload';
+import { body } from 'express-validator';
+
 
 
 class categoriaController {
 
 
-    static getAll = () => {
+    static getAll = async( req: Request, res: Response ) => {
         
+        try {
+            
+            const categorias = await Categoria.find({ estado : true });
+
+            return res.json({
+                ok: true,
+                categorias
+            });
+
+
+        } catch (error) {
+
+            return res.json({
+                ok: false,
+                err: error.message
+            });
+
+        }
+
     }
 
-    static geyByCodigo = () => {
-        
+    static geyByCodigo = async( req: Request, res: Response ) => {
+        try {
+            
+            const code = req.params.code;
+
+            const categorias = await Categoria.find({ estado : true, codigo: code });
+
+            return res.json({
+                ok: true,
+                categorias
+            });
+
+
+        } catch (error) {
+
+            return res.json({
+                ok: false,
+                err: error.message
+            });
+
+        }
     }
-
-    static getById = () => {
-
-    }
-
+    
     static create =  async( req: Request, res: Response ) => {
         
         const { nombre, descripcion, estado } = req.body;
@@ -55,14 +92,92 @@ class categoriaController {
 
     }
 
+    static update = async( req: Request, res: Response ) => {
 
-    static update = () => {
+        const code = req.params.code;
+        const { nombre, descripcion } = req.body;
 
+
+        try {
+            const cateDb = await Categoria.findOneAndUpdate({ codigo: code }, { nombre: nombre, descripcion: descripcion }, { new: true });
+            
+
+            if( !cateDb ){
+                res.json({
+                    ok: false,
+                    err: 'La categoria no existe'
+                });
+            }
+
+            return res.json({
+                ok: true,
+                categoria: cateDb
+            });
+
+
+        } catch (error) {
+            res.json({
+                ok: false,
+                err: error.message
+            })
+        }
     }
 
-
-    static setBanner = () => {
+    static setBanner = async ( req: Request, res: Response ) => {        
         
+        const banner  = req.files?.banner as UploadedFile;
+        
+        const cat_code = req.params.code;
+
+        try {
+
+            const fileName = await FileService.saveBannerCategoria( banner, cat_code, banner.name );
+
+            console.log(fileName);
+            await Categoria.findOneAndUpdate({ codigo: cat_code }, { banner : fileName })
+
+            return res.json({
+                Ok: true,
+                message: 'Imagen cargada con exito'
+            });
+
+        } catch (error) {
+
+            return res.json({
+                Ok: false,
+                error: error.message
+            });
+        }
+
+    }
+    
+    static delete = async ( req: Request, res: Response ) => {
+
+        const code  = req.params.code;
+
+        try {
+            const cate = await Categoria.findOneAndDelete({ codigo: code })
+            
+            if( cate ){
+                await FileService.deleteCategoriaFolder(cate.codigo, cate.banner);
+            }
+
+
+
+
+            return res.json({
+                ok: true,
+                message: 'Categoria Eliminada'
+            });
+            
+        } catch (error) {
+            return res.json({
+                ok: false,
+                error: error.message
+            })
+        }
+
+
     }
 
 

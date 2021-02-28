@@ -22,7 +22,6 @@ const categoriaSchema = new Schema({
     },
     banner: {
         type: String,
-        default: 'default-categoria.jpg'
     }
 
 });

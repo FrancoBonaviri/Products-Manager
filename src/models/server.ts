@@ -3,6 +3,7 @@ import { Application } from 'express';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import routes from '../routes';
+import fileUpload from 'express-fileupload';
 require('dotenv').config()
 
 
@@ -39,6 +40,7 @@ class Server {
             })
         }
 
+        this.app.use( fileUpload() )
         this.app.use('/', routes);
     }
 

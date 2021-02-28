@@ -19,8 +19,7 @@ const productSchema = new Schema({
     },
     imagenes: {
         type: [ { type: String } ],
-        required: [ false ],
-        default: ['default-product.jpg']
+        required: [ false ]
     },
     categoria: {
         type: Schema.Types.ObjectId,
