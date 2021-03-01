@@ -2,6 +2,7 @@ import { FileUpload } from '../interfaces/fileUpload';
 import path from 'path';
 import fs from 'fs';
 import { v4 as uuid } from 'uuid';
+import { Response } from 'express';
 
 const valid_files_types = [ 'png' , 'jpg' , 'jpeg' , 'gif' ]; 
 
@@ -66,6 +67,18 @@ export default class FileService {
             });
 
         })
+    }
+
+    static getCategoriaImage = ( cat_code: string, imgName: string ) => {
+
+        const fullPath = path.resolve(__dirname, '../images', cat_code, imgName);
+
+        if( fs.existsSync( fullPath ) ){
+            return fullPath;
+        }
+
+        return path.resolve(__dirname, '../assets', 'No-Image-Found.png');
+
     }
 
     static getUniqueName = ( fileName: string ) => {

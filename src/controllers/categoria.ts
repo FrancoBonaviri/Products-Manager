@@ -180,6 +180,26 @@ class categoriaController {
 
     }
 
+    static getImage = async ( req: Request, res: Response ) => {
+
+        const code = req.params.code;
+
+        const cat = await Categoria.findOne({ codigo: code });
+
+        if( !cat ){
+            return res.json({
+                ok: false,
+                message: 'Categoria invalida'
+            });
+        };
+
+
+        const file = FileService.getCategoriaImage(cat.codigo, cat.banner);
+
+        return res.sendFile( file );
+
+    }
+
 
 }
 

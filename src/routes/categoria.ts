@@ -29,4 +29,7 @@ categoriaRoutes.put('/:code', [
     BodyValidator
 ],categoriaController.update );
 
+
+categoriaRoutes.get('/image/:code', categoriaController.getImage);
+
 export default categoriaRoutes;
