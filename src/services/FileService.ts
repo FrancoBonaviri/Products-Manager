@@ -19,6 +19,8 @@ export default class FileService {
                 const folder = FileService.getCatFolder(cat_code);
     
                 const name = FileService.getUniqueName( fileName );
+
+
     
                 file.mv(`${ folder }/${ name }`, (err: any) => {
                     if( err ){ 
@@ -37,9 +39,6 @@ export default class FileService {
 
         });
     }
-
-
-
 
     static getCatFolder = ( cat_code: string ) => {
         const pathCatFolder = path.resolve(__dirname, '../images', cat_code );

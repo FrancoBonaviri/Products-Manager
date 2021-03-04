@@ -29,6 +29,8 @@ export const validBannerCat = async( req: Request, res: Response, next: NextFunc
         return; 
     } 
 
+    req.body.cat = cat;
+
     next();
 
 }

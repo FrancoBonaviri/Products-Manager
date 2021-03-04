@@ -22,7 +22,7 @@ const productSchema = new Schema({
         required: [ false ]
     },
     categoria: {
-        type: Schema.Types.ObjectId,
+        type: String,
         required: [ true, 'Debe indicar una categoria al producto']
     },
     estado: {
@@ -41,6 +41,12 @@ const productSchema = new Schema({
 productSchema.method('isDisponible', function(): boolean {
     return this.stock > 0
 })
+
+
+productSchema.method('toJSON', function() {
+    const { __v, ...data } = this._doc;
+    return data;
+});
 
 
 interface Iproducto extends Document {

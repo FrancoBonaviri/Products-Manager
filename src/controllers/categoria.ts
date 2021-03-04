@@ -3,8 +3,6 @@ import { Categoria } from '../models/categoria';
 import { v4 as uuid } from 'uuid';
 import FileService from '../services/FileService';
 import { UploadedFile } from 'express-fileupload';
-import { body } from 'express-validator';
-
 
 
 class categoriaController {
@@ -130,6 +128,7 @@ class categoriaController {
         const cat_code = req.params.code;
 
         try {
+            FileService.deleteCategoriaFolder( cat_code, req.body.cat.banner );
 
             const fileName = await FileService.saveBannerCategoria( banner, cat_code, banner.name );
 
