@@ -17,6 +17,10 @@ const productSchema = new Schema({
         type: Number,
         required: [true, 'Debe indicar un precio']
     },
+    costo: {
+        type: Number,
+        required: [true, 'Debe indicar un costo']
+    },
     imagenes: {
         type: [ { type: String } ],
         required: [ false ]
@@ -55,7 +59,7 @@ interface Iproducto extends Document {
     stock: number;
     precio: number;
     imagenes: [string];
-    categoria: Schema.Types.ObjectId;
+    categoria: string;
     estado: boolean;
     codigo: string
 

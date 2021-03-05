@@ -97,7 +97,7 @@ class categoriaController {
 
 
         try {
-            const cateDb = await Categoria.findOneAndUpdate({ codigo: code }, { nombre: nombre, descripcion: descripcion }, { new: true });
+            const cateDb = await Categoria.findOneAndUpdate({ codigo: code, estado: true }, { nombre: nombre, descripcion: descripcion }, { new: true });
             
 
             if( !cateDb ){
@@ -132,7 +132,6 @@ class categoriaController {
 
             const fileName = await FileService.saveBannerCategoria( banner, cat_code, banner.name );
 
-            console.log(fileName);
             await Categoria.findOneAndUpdate({ codigo: cat_code }, { banner : fileName })
 
             return res.json({
@@ -183,7 +182,7 @@ class categoriaController {
 
         const code = req.params.code;
 
-        const cat = await Categoria.findOne({ codigo: code });
+        const cat = await Categoria.findOne({ codigo: code, estado: true });
 
         if( !cat ){
             return res.json({
