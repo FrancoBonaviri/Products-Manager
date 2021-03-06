@@ -8,11 +8,9 @@ const solicitanteSchema = new Schema({
     },
     nombre: {
         type: String,
-        required: [true, 'El nombre es requerido']
     },
     apellido: {
         type: String,
-        required: [true, 'El apellido es requerido']
     },
     email: {
         type: String,
@@ -57,5 +55,12 @@ interface Isolicitante extends Document {
     piso: string;
     codigoPostal: string;
 }
+
+
+solicitanteSchema.method('toJSON', function() {
+    const { __v, ...data } = this._doc;
+    return data;
+});
+
 
 export const Solicitante = model<Isolicitante>('Solicitante', solicitanteSchema);
