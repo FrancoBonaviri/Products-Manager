@@ -106,6 +106,61 @@ class solicitanteController {
 
     };
 
+    static getAll = async ( req: Request, res: Response ) => {
+      
+        try {
+            
+            const solicitantes = await Solicitante.find();
+
+
+            return res.json({
+                ok: true,
+                solicitantes
+            });
+
+        } catch (error) {
+            
+            return res.json({
+                ok: false,
+                err: error.message
+            });
+        }
+        
+
+    }
+
+    static getByCodigo = async ( req: Request, res: Response ) => {
+
+        const code = req.params.code;
+
+
+        try {
+            
+            const solicitanteDb = await Solicitante.findOne({ codigo: code });
+
+            if ( !solicitanteDb ) {
+                return res.json({
+                    ok: false,
+                    err: 'Solicitante invalido'
+                });
+            };
+
+            return res.json({
+                ok: true,
+                solicitante: solicitanteDb
+            });
+
+        } catch (error) {
+            
+            return res.json({
+                ok: false,
+                err: error.message
+            });
+
+        }
+
+    }
+
 }
 
 
