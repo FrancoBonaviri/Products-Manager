@@ -15,6 +15,13 @@ ventasRoutes.post('/', [
     isValidEstadoVenta
 ], ventasController.create );
 
+ventasRoutes.put('/confirmar/:code', [], ventasController.confirmarVenta ); 
+
+ventasRoutes.put('/finalizar/:code', [], ventasController.finalizar );
+
+ventasRoutes.get('/:code', [], ventasController.getByCodigo );
+
+ventasRoutes.get('/', [], ventasController.getAll );
 
 
 export default ventasRoutes;

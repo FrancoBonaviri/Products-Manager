@@ -165,10 +165,6 @@ export const isValidDetalleVenta = async ( req: Request, res: Response, next: Ne
     Promise.all(
         detalles.map( async(item: any) => {
             if( !(item.cantidad && item.producto) ){
-                // return res.json({
-                //     ok: false,
-                //     err: 'Cada producto del detalle debe esta en un objecto de tipo { producto: "codigo-producto", cantidad: "cantidad-producto"} '
-                // });
                 throw new Error('Cada producto del detalle debe esta en un objecto de tipo { producto: "codigo-producto", cantidad: "cantidad-producto"} ')
             };
     
@@ -176,11 +172,6 @@ export const isValidDetalleVenta = async ( req: Request, res: Response, next: Ne
             const exist = await Producto.exists({ codigo: item.producto }) 
             if( ! exist ) {
                 throw new Error('Producto invalido: ' + item.producto)
-                // Promise.reject('Producto invalido: ' + item.producto)
-                // return res.json({
-                //     ok: false,
-                //     err: 'Producto invalido: ' + item.producto
-                // });
             };
         })
     )
